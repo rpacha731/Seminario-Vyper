@@ -19,7 +19,6 @@ struct Order:
     menu: String[50]
     table: String[50]
     waiter: address
-    chef: address
     customer: String[50]
 
 struct Menu:
@@ -53,17 +52,10 @@ def changeStateOrder(table: String[50], status: OrderStatus):
     order.status = status
 
 @external
-def saveNewOrder(in_menu: String[50], in_table: String[50], in_waiter: address, in_customer: String[50]):
+def saveNewOrder(in_menu: String[50], in_table: String[50], in_customer: String[50]):
     orderAux: Order = self.orders[in_table]
     assert orderAux.waiter == empty(address), "Ya existe una orden para esa mesa"
-    order: Order = Order({
-        status: OrderStatus.ENQUEUED,
-        menu: in_menu,
-        table: in_table,
-        waiter: in_waiter,
-        chef: empty(address),
-        customer: in_customer
-    })
+    order: Order = Order({status: OrderStatus.ENQUEUED, menu: in_menu, table: in_table, waiter: self.owner, customer: in_customer})
     self.orders[order.table] = order
 
 @view

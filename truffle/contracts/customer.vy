@@ -1,7 +1,7 @@
 # @version ^0.3.7
 
 interface Restaurant:
-    def saveNewOrder(in_menu: String[50], in_table: String[50], in_waiter: address, in_customer: String[50]): nonpayable
+    def saveNewOrder(in_menu: String[50], in_table: String[50], in_customer: String[50]): nonpayable
 
 
 enum CustomerGender:
@@ -57,9 +57,9 @@ def changeTable(name: String[50], table: String[50]):
     customer.table = table
 
 @external
-def customerAttendedByWaiter(in_name: String[50], in_menu: String[50], in_waiter: address):
+def customerAttendedByWaiter(in_name: String[50], in_menu: String[50]):
     customer : Customer = self.customers[in_name]
     assert customer.name != empty(String[50]), "Cliente no encontrado"
     customer.status = CustomerStatus.ATTENDED
-    restaurant : Restaurant = Restaurant(in_waiter)
-    restaurant.saveNewOrder(in_menu, customer.table, in_waiter, customer.name)
+    restaurant : Restaurant = Restaurant(msg.sender)
+    restaurant.saveNewOrder(in_menu, customer.table, customer.name)

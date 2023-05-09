@@ -14,7 +14,7 @@ contract("Customer", async accounts => {
 
         console.log("Menu created", await rest.getMenu("Papas"));
 
-        await cust.customerAttendedByWaiter("Leo", "Papas", "0xE5F37F18834387487Ca770741c9FB00c35E93603");
+        await cust.customerAttendedByWaiter("Leo", "Papas");
 
         console.log("Customer attended", await rest.getOrder("Mesa 10"));
     });
